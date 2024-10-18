@@ -10,6 +10,8 @@ import RangeSelect from "@/components/menu/RangeSelect";
 import SelectRating from "@/components/menu/SelectRating";
 import GoogleMapView from "@/components/menu/GoogleMapView";
 import TrailList from "@/components/menu/TrailList";
+import Calendar from "@/components/menu/MyDatePicker";
+import MyDatePicker from "@/components/menu/MyDatePicker";
 export default function ExplorePage() {
   const { data: session } = useSession();
   const [trailList, setTrailList] = useState([]);
@@ -30,6 +32,7 @@ useEffect(()=>{
         <CategoryList/>
         <RangeSelect/>
         <SelectRating/>
+        <MyDatePicker/>
       </div>
       <div className="col-span-3">
         <GoogleMapView trailList={trailList}/>
