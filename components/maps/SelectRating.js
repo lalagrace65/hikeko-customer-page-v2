@@ -9,6 +9,7 @@ function SelectRating({ onRatingChange }) {
     } else {
       setSelectedRating(selectedRating.filter((n) => n !== value));
     }
+    console.log(selectedRating);
   };
 
   useEffect(() => {

@@ -11,8 +11,7 @@ export async function GET() {
     const featuredProductId = '66c9e7dcc26604328135007d'; // Replace with your actual feature ID
     const feature = await Feature.findById(featuredProductId);
 
-    // Log feature data for debugging
-    console.log('Fetched feature data:', feature);
+    
 
     // Return the feature data as JSON
     return NextResponse.json(feature);

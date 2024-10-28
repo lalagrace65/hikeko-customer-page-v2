@@ -6,15 +6,17 @@ function Markers({trail}) {
   return (
     <div>
         <MarkerF 
-            position={trail.geometry.location} // Updated to use centerCoordinates
+            position={trail.coordinates} // Updated to use centerCoordinates
             icon={{
                 url: '/marker.png',
                 scaledSize: {
-                    width: 50,
-                    height: 50,
+                    width: 100,
+                    height: 100,
                 }
             }}
-        />
+        >
+            
+        </MarkerF>
     </div>
   )
 }

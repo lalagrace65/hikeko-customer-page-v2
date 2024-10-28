@@ -29,9 +29,21 @@ function GoogleMapView({trailList}) {
                     options={{ mapId: '16b2c61749498632' }}
                     zoom={15}
                 >
-                    
-                    {trailList.map((item,index)=>index<=9 && (
-                        <Markers trail={item} key={index}/>
+                    <MarkerF
+                        position={userLocation}
+                        icon={{
+                            url: '/marker.png',
+                            scaledSize: {
+                                width: 50,
+                                height: 50,
+                            }
+                        }}
+                    />
+                    {trailList.map((item,index) => (
+                        <Markers
+                            trail={item} 
+                            key={index}
+                        />
                     ))}
                 </GoogleMap>
             </LoadScript>

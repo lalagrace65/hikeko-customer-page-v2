@@ -6,6 +6,8 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  isVerified: {type: Boolean, default: false},
+  isAdmin: {type: Boolean, default: false},
 }, {timestamps: true});
 
 export const User = models?.User || model('User', UserSchema);

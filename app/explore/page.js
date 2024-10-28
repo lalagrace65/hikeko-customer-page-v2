@@ -3,34 +3,42 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 import GlobalApi from "@/Shared/GlobalApi";
-import CategoryList from "@/components/menu/CategoryList";
-import RangeSelect from "@/components/menu/RangeSelect";
-import SelectRating from "@/components/menu/SelectRating";
-import GoogleMapView from "@/components/menu/GoogleMapView";
-import TrailList from "@/components/menu/TrailList";
-import Calendar from "@/components/menu/MyDatePicker";
-import MyDatePicker from "@/components/menu/MyDatePicker";
+import CategoryList from "@/components/maps/CategoryList";
+import RangeSelect from "@/components/maps/RangeSelect";
+import SelectRating from "@/components/maps/SelectRating";
+import GoogleMapView from "@/components/maps/GoogleMapView";
+import TrailList from "@/components/maps/TrailList";
+import MyDatePicker from "@/components/maps/MyDatePicker";
+import SkeltonLoading from "@/components/icons/SkeletonLoading";
 export default function ExplorePage() {
   const { data: session } = useSession();
-  const [trailList, setTrailList] = useState([]);
   const router = useRouter();
-  
+  const [category, setCategory] = useState();
+  const [radius, setRadius] = useState(2500);
+  const [trailList, setTrailList] = useState([]);
+  const [loading,setLoading]=useState(true);
+
+
 useEffect(()=>{
   getGooglePlace();
-},[])
+},[category,radius])
+
   const getGooglePlace=()=>{
-  GlobalApi.getGooglePlace().then((res)=>{
-    console.log(res.data.product.results)
+    setLoading(true)
+  GlobalApi.getGooglePlace(category,radius).then((res)=>{
+    console.log(res.data.product.results);
+    setLoading(false)
   })
 }
 
   return (
     <div className="grid grid-cols-1 h-screen md:grid-cols-4 justify-center">
       <div className="p-3">
-        <CategoryList/>
-        <RangeSelect/>
+        <CategoryList onChangeCategory={(value)=>setCategory(value)}/>
+        <RangeSelect onRadiusChange={(value)=>setRadius(value)}/>
         <SelectRating/>
         <MyDatePicker/>
       </div>
@@ -38,7 +46,16 @@ useEffect(()=>{
         <GoogleMapView trailList={trailList}/>
         <div className='md:absolute mx-2 w-[90%] md:w-[74%]  
            bottom-36 relative md:bottom-3'>
-           <TrailList trailList={trailList}/>
+           
+           {!loading?
+            <TrailList trailList={trailList}/>
+            :
+            <div className='flex gap-3'>
+            {[1,2,3,4,5].map((item,index)=>(
+                <SkeltonLoading key={index} />
+            ))}
+            </div>
+            }
         </div>
       </div>
     </div>
