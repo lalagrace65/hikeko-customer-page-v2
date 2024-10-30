@@ -142,7 +142,7 @@ export function JoinerDetailsForm({trailId,packageId}) {
           name="joinerName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Joiner's Name(s)</FormLabel>
+              <FormLabel>Hiker name(s)</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter your name(s)" />
               </FormControl>
