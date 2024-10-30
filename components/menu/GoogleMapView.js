@@ -19,10 +19,7 @@ function GoogleMapView({trailList}) {
 
     return (
         <div>
-            <LoadScript
-                googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
-                mapId={'16b2c61749498632'}
-            >
+            
                 <GoogleMap 
                     mapContainerStyle={containerStyle}
                     center={centerCoordinates}
@@ -34,7 +31,6 @@ function GoogleMapView({trailList}) {
                         <Markers trail={item} key={index}/>
                     ))}
                 </GoogleMap>
-            </LoadScript>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 'use client';
 import Image from "next/image";
-import SectionHeaders from "../layout/SectionHeaders";
-import MenuItem from "../menu/MenuItem";
+import SectionHeaders from "@/components/layout/SectionHeaders";
+import MenuItem from "@/components/menu/MenuItem";
 export default function HomeMenu() {
   
   return (

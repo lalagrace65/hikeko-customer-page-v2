@@ -14,7 +14,14 @@ function Markers({trail}) {
                     height: 50,
                 }
             }}
-        />
+        >
+            <OverlayView
+                position={trail.geometry.location} // Updated to use centerCoordinates
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+            >
+                <h2>{trail.title}</h2>
+            </OverlayView>
+        </MarkerF>
     </div>
   )
 }

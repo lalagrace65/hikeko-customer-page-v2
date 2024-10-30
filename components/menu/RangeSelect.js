@@ -18,7 +18,7 @@ function RangeSelect({ onRadiusChange }) {
         max="5000"
         step="500"
         value={radius} // Use value instead of defaultValue
-        onChange={(e) => setRadius(Number(e.target.value))} // Convert to number
+        onChange={(e) => {setRadius(Number(e.target.value)); onRadiusChange(Number(e.target.value))}} // Convert to number
       />
       <label className='text-gray-500 text-[15px]'>{radius} in Meter</label>
     </div>

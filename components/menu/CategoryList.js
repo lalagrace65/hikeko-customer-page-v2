@@ -3,7 +3,7 @@ import Data from './../../Shared/Data'
 import { useState } from 'react'
 import Image from 'next/image'
 
-function CategoryList() {
+function CategoryList({onChangeCategory}) {
     const [categoryList,setCategoryList]=useState(Data.CategoryListData);
     const [selectedCategory,setSelectedCategory]=useState();
   return (
@@ -16,7 +16,7 @@ function CategoryList() {
                 className={`flex flex-col justify-center items-center bg-gray-100
                 p-2 m-2 rounded-lg grayscale hover:grayscale-0 cursor-pointer border-red-400
                 ${selectedCategory==index? 'grayscale-0 border-[1px]':null}`}
-                onClick={()=>setSelectedCategory(index)}
+                onClick={()=>{setSelectedCategory(index);onChangeCategory(item.value)}}
                 >
                     <Image src={item.icon}
                     alt={item.name}

@@ -2,42 +2,41 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import uniqid from "uniqid";
 
 export async function POST(req) {
-  try {
+  
     const data = await req.formData();
+    
+    if (data.get('file')) {
     const file = data.get('file');
-
-    if (!file) {
-      return new Response("No file uploaded", { status: 400 });
-    }
 
     const s3Client = new S3Client({
       region: 'us-east-1',
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       },
     });
 
-    const ext = file.name.split('.').pop();
+    const ext = file.name.split('.').slice(-1)[0];
     const newFileName = uniqid() + '.' + ext;
 
-    const buffer = await file.arrayBuffer();  // Get file as array buffer
+    const chunks = [];
+    for await (const chunk of file.stream()) {
+      chunks.push(chunk);
+    }
+    const buffer = Buffer.concat(chunks);
 
     const bucketName = 'hikeko-web-admin';
-    const command = new PutObjectCommand({
+   await s3Client.send(new PutObjectCommand({
       Bucket: bucketName,
       Key: newFileName,
       ACL: 'public-read',
       ContentType: file.type,
-      Body: Buffer.from(buffer),  // Convert array buffer to Buffer
-    });
+      Body: buffer,
+    }));
 
-    await s3Client.send(command);
-
-    const link = `https://${bucketName}.s3.amazonaws.com/${newFileName}`;
-    return new Response(JSON.stringify({ link }), { status: 200 });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    return new Response("Internal Server Error", { status: 500 });
+  
+    const link = 'https://'+bucketName+'.s3.amazonaws.com/'+newFileName;
+    return Response.json(link)
   }
+    return Response.json(true);
 }
